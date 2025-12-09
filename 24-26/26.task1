@@ -1,0 +1,49 @@
+import java.util.Stack;
+
+public class ArrayInverter {
+    public static void main(String[] args) {
+        // Исходный массив
+        int[] originalArray = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        
+        System.out.println("Исходный массив:");
+        printArray(originalArray);
+        
+        // Инвертируем массив с помощью Stack
+        int[] invertedArray = invertUsingStack(originalArray);
+        
+        System.out.println("\nИнвертированный массив (с использованием Stack):");
+        printArray(invertedArray);
+    }
+    
+    // Метод для инверсии массива с помощью Stack
+    public static int[] invertUsingStack(int[] array) {
+        // Создаем стек
+        Stack<Integer> stack = new Stack<>();
+        
+        // 1. Помещаем все элементы массива в стек
+        for (int element : array) {
+            stack.push(element);
+        }
+        
+        // 2. Создаем новый массив для результата
+        int[] result = new int[array.length];
+        
+        // 3. Извлекаем элементы из стека (они будут в обратном порядке)
+        for (int i = 0; i < result.length; i++) {
+            result[i] = stack.pop();
+        }
+        
+        return result;
+    }
+    
+    // Метод для печати массива
+    public static void printArray(int[] array) {
+        for (int i = 0; i < array.length; i++) {
+            System.out.print(array[i]);
+            if (i < array.length - 1) {
+                System.out.print(", ");
+            }
+        }
+        System.out.println();
+    }
+}
