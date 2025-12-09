@@ -1,1 +1,118 @@
+// 1. Абстрактный класс Computer
+abstract class Computer {
+    public abstract String getRAM();
+    public abstract String getHDD();
+    public abstract String getCPU();
+    
+    @Override
+    public String toString() {
+        return "RAM=" + getRAM() + ", HDD=" + getHDD() + ", CPU=" + getCPU();
+    }
+}
 
+// 2. Конкретные продукты
+class PC extends Computer {
+    private String ram;
+    private String hdd;
+    private String cpu;
+    
+    public PC(String ram, String hdd, String cpu) {
+        this.ram = ram;
+        this.hdd = hdd;
+        this.cpu = cpu;
+    }
+    
+    @Override
+    public String getRAM() { return ram; }
+    
+    @Override
+    public String getHDD() { return hdd; }
+    
+    @Override
+    public String getCPU() { return cpu; }
+}
+
+class Server extends Computer {
+    private String ram;
+    private String hdd;
+    private String cpu;
+    
+    public Server(String ram, String hdd, String cpu) {
+        this.ram = ram;
+        this.hdd = hdd;
+        this.cpu = cpu;
+    }
+    
+    @Override
+    public String getRAM() { return ram; }
+    
+    @Override
+    public String getHDD() { return hdd; }
+    
+    @Override
+    public String getCPU() { return cpu; }
+}
+
+// 3. Абстрактная фабрика
+interface ComputerAbstractFactory {
+    Computer createComputer();
+}
+
+// 4. Конкретные фабрики
+class PCFactory implements ComputerAbstractFactory {
+    private String ram;
+    private String hdd;
+    private String cpu;
+    
+    public PCFactory(String ram, String hdd, String cpu) {
+        this.ram = ram;
+        this.hdd = hdd;
+        this.cpu = cpu;
+    }
+    
+    @Override
+    public Computer createComputer() {
+        return new PC(ram, hdd, cpu);
+    }
+}
+
+class ServerFactory implements ComputerAbstractFactory {
+    private String ram;
+    private String hdd;
+    private String cpu;
+    
+    public ServerFactory(String ram, String hdd, String cpu) {
+        this.ram = ram;
+        this.hdd = hdd;
+        this.cpu = cpu;
+    }
+    
+    @Override
+    public Computer createComputer() {
+        return new Server(ram, hdd, cpu);
+    }
+}
+
+// 5. Фабрика для создания объектов
+class ComputerFactory {
+    public static Computer getComputer(ComputerAbstractFactory factory) {
+        return factory.createComputer();
+    }
+}
+
+// 6. Тестовый класс
+public class Task1 {
+    public static void main(String[] args) {
+        // Создаем фабрики
+        ComputerAbstractFactory pcFactory = new PCFactory("8 GB", "256 GB SSD", "2.5 GHz");
+        ComputerAbstractFactory serverFactory = new ServerFactory("32 GB", "1 TB HDD", "3.0 GHz");
+        
+        // Создаем компьютеры через фабрику
+        Computer pc = ComputerFactory.getComputer(pcFactory);
+        Computer server = ComputerFactory.getComputer(serverFactory);
+        
+        // Выводим информацию
+        System.out.println("PC Config: " + pc);
+        System.out.println("Server Config: " + server);
+    }
+}
