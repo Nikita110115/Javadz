@@ -1,0 +1,18 @@
+import java.util.regex.*;
+
+public class CheckExactString {
+    public static void main(String[] args) {
+        String regex = "^abcdefghijklmnopqrstuv18340$";
+        
+        String[] testStrings = {
+            "abcdefghijklmnopqrstuv18340",      // правильный
+            "abcdefghijklmnoasdfasdpqrstuv18340" // неправильный
+        };
+        
+        for (String test : testStrings) {
+            boolean matches = Pattern.matches(regex, test);
+            System.out.println("Строка: \"" + test + "\"");
+            System.out.println("Соответствует шаблону? " + matches + "\n");
+        }
+    }
+}
