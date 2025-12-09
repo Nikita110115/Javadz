@@ -1,0 +1,186 @@
+import java.util.Scanner;
+
+// 1. Интерфейс документа
+interface IDocument {
+    void open();
+    void save();
+    void close();
+}
+
+// 2. Конкретные документы
+class TextDocument implements IDocument {
+    @Override
+    public void open() {
+        System.out.println("Текстовый документ открыт");
+    }
+    
+    @Override
+    public void save() {
+        System.out.println("Текстовый документ сохранен");
+    }
+    
+    @Override
+    public void close() {
+        System.out.println("Текстовый документ закрыт");
+    }
+}
+
+class ImageDocument implements IDocument {
+    @Override
+    public void open() {
+        System.out.println("Изображение открыто");
+    }
+    
+    @Override
+    public void save() {
+        System.out.println("Изображение сохранено");
+    }
+    
+    @Override
+    public void close() {
+        System.out.println("Изображение закрыто");
+    }
+}
+
+class MusicDocument implements IDocument {
+    @Override
+    public void open() {
+        System.out.println("Музыкальный файл открыт");
+    }
+    
+    @Override
+    public void save() {
+        System.out.println("Музыкальный файл сохранен");
+    }
+    
+    @Override
+    public void close() {
+        System.out.println("Музыкальный файл закрыт");
+    }
+}
+
+// 3. Фабричный интерфейс
+interface ICreateDocument {
+    IDocument createNew();
+    IDocument createOpen();
+}
+
+// 4. Конкретные фабрики
+class CreateTextDocument implements ICreateDocument {
+    @Override
+    public IDocument createNew() {
+        return new TextDocument();
+    }
+    
+    @Override
+    public IDocument createOpen() {
+        return new TextDocument();
+    }
+}
+
+class CreateImageDocument implements ICreateDocument {
+    @Override
+    public IDocument createNew() {
+        return new ImageDocument();
+    }
+    
+    @Override
+    public IDocument createOpen() {
+        return new ImageDocument();
+    }
+}
+
+class CreateMusicDocument implements ICreateDocument {
+    @Override
+    public IDocument createNew() {
+        return new MusicDocument();
+    }
+    
+    @Override
+    public IDocument createOpen() {
+        return new MusicDocument();
+    }
+}
+
+// 5. Каркас приложения
+class ApplicationFramework {
+    private ICreateDocument factory;
+    private IDocument currentDocument;
+    
+    public ApplicationFramework(ICreateDocument factory) {
+        this.factory = factory;
+    }
+    
+    public void newFile() {
+        currentDocument = factory.createNew();
+        currentDocument.open();
+    }
+    
+    public void openFile() {
+        currentDocument = factory.createOpen();
+        currentDocument.open();
+    }
+    
+    public void saveFile() {
+        if (currentDocument != null) {
+            currentDocument.save();
+        } else {
+            System.out.println("Нет открытого документа");
+        }
+    }
+    
+    public void exit() {
+        if (currentDocument != null) {
+            currentDocument.close();
+        }
+        System.out.println("Выход из приложения");
+    }
+    
+    public void run() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Редактор запущен");
+        
+        while (true) {
+            System.out.println("\nМеню:");
+            System.out.println("1. New");
+            System.out.println("2. Open");
+            System.out.println("3. Save");
+            System.out.println("4. Exit");
+            System.out.print("Выберите действие: ");
+            
+            int choice = scanner.nextInt();
+            
+            switch (choice) {
+                case 1:
+                    newFile();
+                    break;
+                case 2:
+                    openFile();
+                    break;
+                case 3:
+                    saveFile();
+                    break;
+                case 4:
+                    exit();
+                    scanner.close();
+                    return;
+                default:
+                    System.out.println("Неверный выбор");
+            }
+        }
+    }
+}
+
+// 6. Тестовый класс (текстовый редактор)
+public class Task3 {
+    public static void main(String[] args) {
+        // Создаем фабрику для текстовых документов
+        ICreateDocument textFactory = new CreateTextDocument();
+        
+        // Создаем каркас приложения
+        ApplicationFramework editor = new ApplicationFramework(textFactory);
+        
+        // Запускаем редактор
+        editor.run();
+    }
+}
