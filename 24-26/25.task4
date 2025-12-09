@@ -1,0 +1,35 @@
+import java.util.regex.*;
+
+public class CheckNumbersWithoutPlus {
+    public static void main(String[] args) {
+        String[] testExpressions = {
+            "(1 + 8) - 9 / 4",  // правильный
+            "6 / 5 - 2 * 9"     // неправильный (цифра 6 без +)
+        };
+        
+        // Регулярное выражение ищет цифры, после которых нет пробела и знака +
+        String regex = "\\d[^+\\s]|\\d$";
+        
+        for (String expr : testExpressions) {
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher = pattern.matcher(expr);
+            
+            boolean hasBadNumber = false;
+            while (matcher.find()) {
+                // Проверяем, что после цифры не идет сразу "+"
+                if (!expr.substring(matcher.start()).matches("^\\d\\s*\\+.*")) {
+                    hasBadNumber = true;
+                    break;
+                }
+            }
+            
+            System.out.println("Выражение: \"" + expr + "\"");
+            System.out.println("Есть цифры без '+'? " + hasBadNumber);
+            
+            // Альтернативный способ - более простое регулярное выражение
+            String simpleRegex = "\\d\\s*[^+\\s]";
+            boolean result = Pattern.compile(simpleRegex).matcher(expr).find();
+            System.out.println("Упрощенная проверка: " + result + "\n");
+        }
+    }
+}
