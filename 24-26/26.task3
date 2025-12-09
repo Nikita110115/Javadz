@@ -1,0 +1,47 @@
+public class CustomIteratorDemo {
+    public static void main(String[] args) {
+        // Создаем наш собственный список
+        MyArrayList<String> myList = new MyArrayList<>();
+        
+        // Добавляем элементы
+        myList.add("Первый");
+        myList.add("Второй");
+        myList.add("Третий");
+        myList.add("Четвертый");
+        myList.add("Пятый");
+        
+        System.out.println("Содержимое списка (используя цикл for-each):");
+        // Используем цикл for-each (работает благодаря Iterable)
+        for (String item : myList) {
+            System.out.println(item);
+        }
+        
+        System.out.println("\nСодержимое списка (используя итератор явно):");
+        // Используем итератор явно
+        Iterator<String> iterator = myList.iterator();
+        while (iterator.hasNext()) {
+            System.out.println(iterator.next());
+        }
+        
+        // Демонстрация работы с числами
+        System.out.println("\nСписок чисел:");
+        MyArrayList<Integer> numbers = new MyArrayList<>();
+        numbers.add(10);
+        numbers.add(20);
+        numbers.add(30);
+        numbers.add(40);
+        numbers.add(50);
+        
+        for (int num : numbers) {
+            System.out.println("Число: " + num);
+        }
+        
+        // Проверка метода hasNext()
+        System.out.println("\nПроверка работы итератора:");
+        Iterator<Integer> numIterator = numbers.iterator();
+        System.out.println("Есть следующий элемент? " + numIterator.hasNext());
+        System.out.println("Следующий элемент: " + numIterator.next());
+        System.out.println("Есть следующий элемент? " + numIterator.hasNext());
+        System.out.println("Следующий элемент: " + numIterator.next());
+    }
+}
