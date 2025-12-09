@@ -1,0 +1,21 @@
+import java.util.regex.*;
+
+public class PasswordValidator {
+    public static void main(String[] args) {
+        // Пароль: минимум 8 символов, хотя бы одна цифра, одна заглавная, одна строчная буква
+        String regex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9_]{8,}$";
+        
+        String[] testPasswords = {
+            "F032_Password",  // правильный
+            "TrySpy1",        // правильный
+            "smart_pass",     // неправильный (нет цифры и заглавной)
+            "A007"            // неправильный (меньше 8 символов)
+        };
+        
+        for (String password : testPasswords) {
+            boolean isStrong = Pattern.matches(regex, password);
+            System.out.println("Пароль: " + password + " - " + 
+                             (isStrong ? "надежный" : "ненадежный"));
+        }
+    }
+}
