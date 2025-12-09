@@ -1,0 +1,77 @@
+// 1. Интерфейс Стул
+interface Chair {
+    String sit();
+}
+
+// 2. Конкретные стулья
+class VictorianChair implements Chair {
+    @Override
+    public String sit() {
+        return "Сижу на викторианском стуле";
+    }
+}
+
+class MultifunctionalChair implements Chair {
+    @Override
+    public String sit() {
+        return "Сижу на многофункциональном стуле";
+    }
+}
+
+class MagicChair implements Chair {
+    @Override
+    public String sit() {
+        return "Сижу на магическом стуле";
+    }
+}
+
+// 3. Абстрактная фабрика
+interface ChairFactory {
+    Chair createChair();
+}
+
+// 4. Конкретные фабрики
+class VictorianChairFactory implements ChairFactory {
+    @Override
+    public Chair createChair() {
+        return new VictorianChair();
+    }
+}
+
+class MultifunctionalChairFactory implements ChairFactory {
+    @Override
+    public Chair createChair() {
+        return new MultifunctionalChair();
+    }
+}
+
+class MagicChairFactory implements ChairFactory {
+    @Override
+    public Chair createChair() {
+        return new MagicChair();
+    }
+}
+
+// 5. Класс Клиент
+class Client {
+    public void sit(Chair chair) {
+        System.out.println(chair.sit());
+    }
+}
+
+// 6. Тестовый класс
+public class Task2 {
+    public static void main(String[] args) {
+        Client client = new Client();
+        
+        // Создаем фабрики
+        ChairFactory victorianFactory = new VictorianChairFactory();
+        ChairFactory multiFactory = new MultifunctionalChairFactory();
+        ChairFactory magicFactory = new MagicChairFactory();
+        
+        // Создаем стулья и садимся на них
+        client.sit(victorianFactory.createChair());
+        client.sit(multiFactory.createChair());
+        client.sit(magicFactory.createChair());
+    }
+}
