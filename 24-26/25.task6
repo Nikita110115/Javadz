@@ -1,0 +1,21 @@
+import java.util.regex.*;
+
+public class EmailValidator {
+    public static void main(String[] args) {
+        // Упрощенное регулярное выражение для email (полное по RFC 2822 очень сложное)
+        String regex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+        
+        String[] testEmails = {
+            "user@example.com",    // правильный
+            "root@localhost",      // правильный (локальный хост)
+            "myhost@@com.ru",      // неправильный (два @)
+            "@my.ru",              // неправильный (нет имени пользователя)
+            "Julia String"         // неправильный
+        };
+        
+        for (String email : testEmails) {
+            boolean isValid = Pattern.matches(regex, email);
+            System.out.println("Email: " + email + " - " + (isValid ? "корректен" : "некорректен"));
+        }
+    }
+}
