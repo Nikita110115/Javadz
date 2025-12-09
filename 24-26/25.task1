@@ -1,0 +1,41 @@
+import java.util.Scanner;
+import java.util.regex.*;
+
+public class StringManipulator {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        System.out.println("Введите строку для разбиения:");
+        String input = scanner.nextLine();
+        
+        System.out.println("Введите регулярное выражение для разбиения:");
+        String regex = scanner.nextLine();
+        
+        // Разбиваем строку по регулярному выражению
+        Pattern pattern = Pattern.compile(regex);
+        String[] parts = pattern.split(input);
+        
+        System.out.println("\nРезультат разбиения:");
+        for (int i = 0; i < parts.length; i++) {
+            System.out.println("Часть " + (i + 1) + ": " + parts[i]);
+        }
+        
+        // Проверяем, соответствует ли вся строка регулярному выражению
+        System.out.println("\nПроверка соответствия всей строки шаблону:");
+        boolean matches = Pattern.matches(regex, input);
+        System.out.println("Строка соответствует шаблону? " + matches);
+        
+        // Ищем все совпадения с шаблоном
+        System.out.println("\nПоиск совпадений с шаблоном в строке:");
+        Matcher matcher = pattern.matcher(input);
+        int count = 0;
+        while (matcher.find()) {
+            System.out.println("Совпадение " + (++count) + ": " + matcher.group());
+        }
+        if (count == 0) {
+            System.out.println("Совпадений не найдено");
+        }
+        
+        scanner.close();
+    }
+}
