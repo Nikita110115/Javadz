@@ -1,0 +1,79 @@
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+// Наш собственный простой список
+class MyArrayList<T> implements Iterable<T> {
+    private Object[] elements;
+    private int size;
+    private static final int DEFAULT_CAPACITY = 10;
+    
+    // Конструктор
+    public MyArrayList() {
+        elements = new Object[DEFAULT_CAPACITY];
+        size = 0;
+    }
+    
+    // Добавление элемента
+    public void add(T element) {
+        // Проверяем, нужно ли увеличивать массив
+        if (size == elements.length) {
+            increaseCapacity();
+        }
+        elements[size++] = element;
+    }
+    
+    // Получение элемента по индексу
+    @SuppressWarnings("unchecked")
+    public T get(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Индекс: " + index + ", Размер: " + size);
+        }
+        return (T) elements[index];
+    }
+    
+    // Размер списка
+    public int size() {
+        return size;
+    }
+    
+    // Увеличение емкости массива
+    private void increaseCapacity() {
+        int newCapacity = elements.length * 2;
+        Object[] newArray = new Object[newCapacity];
+        System.arraycopy(elements, 0, newArray, 0, size);
+        elements = newArray;
+    }
+    
+    // Реализация метода iterator() из интерфейса Iterable
+    @Override
+    public Iterator<T> iterator() {
+        return new MyIterator();
+    }
+    
+    // Внутренний класс - наш собственный итератор
+    private class MyIterator implements Iterator<T> {
+        private int currentIndex = 0;
+        
+        // Проверяем, есть ли следующий элемент
+        @Override
+        public boolean hasNext() {
+            return currentIndex < size;
+        }
+        
+        // Возвращаем следующий элемент
+        @SuppressWarnings("unchecked")
+        @Override
+        public T next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            return (T) elements[currentIndex++];
+        }
+        
+        // Удаление элемента (опционально)
+        @Override
+        public void remove() {
+            throw new UnsupportedOperationException("Метод remove не поддерживается");
+        }
+    }
+}
